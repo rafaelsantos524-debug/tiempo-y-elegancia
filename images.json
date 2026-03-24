@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Cronógrafo Imperial",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0655.jpg",
+    "description": "Movimiento automático suizo, esfera negra con índices dorados."
+  },
+  {
+    "name": "Perla Blanca",
+    "gender": "mujer",
+    "imageDataURL": "images/IMG-20260317-WA0667.jpg",
+    "description": "Esfera perlada con diamantes, correa de satén."
+  }
+]
