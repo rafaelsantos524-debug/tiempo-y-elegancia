@@ -7,12 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== ESTILOS (mismos que antes, con ajustes para previsualización) ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ===== ESTILOS COMPLETOS (mismos que antes, por brevedad se omiten aquí, pero deben estar) ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at 10% 30%, #2b2b28, #1e1e1c);
@@ -62,15 +58,8 @@
             color: transparent;
             animation: shine 3s linear infinite;
         }
-        @keyframes shine {
-            0% { background-position: 0% center; }
-            100% { background-position: 200% center; }
-        }
-        .logo p {
-            font-size: 0.7rem;
-            color: #d4c9a3;
-            letter-spacing: 1px;
-        }
+        @keyframes shine { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+        .logo p { font-size: 0.7rem; color: #d4c9a3; letter-spacing: 1px; }
         .live-clock {
             display: flex;
             align-items: center;
@@ -81,13 +70,7 @@
             backdrop-filter: blur(8px);
             border: 1px solid rgba(212,175,55,0.3);
         }
-        .clock-canvas {
-            width: 60px;
-            height: 60px;
-            background: #fef3da;
-            border-radius: 50%;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-        }
+        .clock-canvas { width: 60px; height: 60px; background: #fef3da; border-radius: 50%; box-shadow: 0 2px 12px rgba(0,0,0,0.3); }
         .digital-time {
             font-family: monospace;
             font-size: 1.2rem;
@@ -121,14 +104,8 @@
             position: relative;
             z-index: 5;
         }
-        .admin-panel.active {
-            display: block;
-            animation: fadeSlide 0.4s ease-out;
-        }
-        @keyframes fadeSlide {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .admin-panel.active { display: block; animation: fadeSlide 0.4s ease-out; }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
         .admin-card {
             background: rgba(30, 30, 28, 0.85);
             backdrop-filter: blur(16px);
@@ -137,20 +114,9 @@
             border: 1px solid rgba(212,175,55,0.3);
             margin-bottom: 2rem;
         }
-        .admin-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1.2rem;
-            color: #d4af37;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        .form-group label {
-            color: #f0ede8;
-            font-weight: 500;
-            margin-bottom: 0.3rem;
-            display: block;
-        }
+        .admin-card h3 { font-size: 1.5rem; margin-bottom: 1.2rem; color: #d4af37; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { color: #f0ede8; font-weight: 500; margin-bottom: 0.3rem; display: block; }
         .form-group input, .form-group textarea, .form-group select {
             width: 100%;
             padding: 0.7rem 1rem;
@@ -160,12 +126,7 @@
             color: #f5f0e6;
             font-family: inherit;
         }
-        .image-preview-area {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 0.8rem;
-        }
+        .image-preview-area { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.8rem; }
         .preview-item {
             position: relative;
             width: 80px;
@@ -174,10 +135,7 @@
             border: 1px solid #d4af37;
             background: #1a1a18;
         }
-        .preview-item img {
-            width: 100%;
-            display: block;
-        }
+        .preview-item img { width: 100%; display: block; }
         .preview-delete {
             position: absolute;
             top: 2px;
@@ -195,10 +153,7 @@
             font-weight: bold;
             transition: 0.2s;
         }
-        .preview-delete:hover {
-            background: #ff4444;
-            color: white;
-        }
+        .preview-delete:hover { background: #ff4444; color: white; }
         .btn-submit {
             background: #d4af37;
             border: none;
@@ -209,9 +164,7 @@
             color: #1e1e1c;
             transition: 0.2s;
         }
-        .btn-submit:hover {
-            background: #f5cb5c;
-        }
+        .btn-submit:hover { background: #f5cb5c; }
         .info-note {
             background: #2a2a28;
             padding: 0.8rem;
@@ -222,7 +175,6 @@
             text-align: center;
             border-left: 3px solid #d4af37;
         }
-        /* catálogo */
         .catalog {
             max-width: 1400px;
             margin: 2rem auto;
@@ -230,9 +182,7 @@
             position: relative;
             z-index: 5;
         }
-        .category-section {
-            margin-bottom: 3rem;
-        }
+        .category-section { margin-bottom: 3rem; }
         .category-header {
             display: flex;
             align-items: baseline;
@@ -241,18 +191,8 @@
             border-left: 4px solid #d4af37;
             padding-left: 1rem;
         }
-        .category-header h2 {
-            font-size: 1.8rem;
-            font-family: 'Playfair Display', serif;
-            color: #f0ede8;
-        }
-        .category-header .count {
-            font-size: 0.9rem;
-            color: #d4af37;
-            background: rgba(0,0,0,0.3);
-            padding: 0.2rem 0.7rem;
-            border-radius: 30px;
-        }
+        .category-header h2 { font-size: 1.8rem; font-family: 'Playfair Display', serif; color: #f0ede8; }
+        .category-header .count { font-size: 0.9rem; color: #d4af37; background: rgba(0,0,0,0.3); padding: 0.2rem 0.7rem; border-radius: 30px; }
         .gold-line {
             width: 80px;
             height: 3px;
@@ -260,11 +200,7 @@
             margin: 0.5rem auto 1rem;
             animation: pulse 2s infinite;
         }
-        @keyframes pulse {
-            0% { opacity: 0.6; width: 80px; }
-            50% { opacity: 1; width: 100px; }
-            100% { opacity: 0.6; width: 80px; }
-        }
+        @keyframes pulse { 0% { opacity: 0.6; width: 80px; } 50% { opacity: 1; width: 100px; } 100% { opacity: 0.6; width: 80px; } }
         .watches-scroll {
             overflow-x: auto;
             overflow-y: visible;
@@ -272,22 +208,10 @@
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
         }
-        .watches-scroll::-webkit-scrollbar {
-            height: 8px;
-        }
-        .watches-scroll::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.3);
-            border-radius: 10px;
-        }
-        .watches-scroll::-webkit-scrollbar-thumb {
-            background: #d4af37;
-            border-radius: 10px;
-        }
-        .watches-row {
-            display: flex;
-            gap: 1.5rem;
-            padding: 0.5rem 0.2rem;
-        }
+        .watches-scroll::-webkit-scrollbar { height: 8px; }
+        .watches-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .watches-scroll::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 10px; }
+        .watches-row { display: flex; gap: 1.5rem; padding: 0.5rem 0.2rem; }
         .watch-card {
             flex: 0 0 auto;
             width: 280px;
@@ -299,11 +223,7 @@
             cursor: pointer;
             border: 1px solid rgba(212, 175, 55, 0.3);
         }
-        .watch-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 35px -12px rgba(0,0,0,0.4);
-            border-color: #d4af37;
-        }
+        .watch-card:hover { transform: translateY(-8px); box-shadow: 0 25px 35px -12px rgba(0,0,0,0.4); border-color: #d4af37; }
         .watch-img {
             background: rgba(0,0,0,0.3);
             height: 240px;
@@ -313,12 +233,7 @@
             padding: 1rem;
             position: relative;
         }
-        .watch-img img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
-        }
+        .watch-img img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
         .error-img-placeholder {
             width: 100%;
             height: 100%;
@@ -332,20 +247,9 @@
             cursor: pointer;
             font-size: 0.8rem;
         }
-        .error-img-placeholder i {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        .watch-info {
-            padding: 1.2rem;
-            text-align: center;
-        }
-        .watch-name {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #f0ede8;
-            margin-bottom: 0.5rem;
-        }
+        .error-img-placeholder i { font-size: 2rem; margin-bottom: 0.5rem; }
+        .watch-info { padding: 1.2rem; text-align: center; }
+        .watch-name { font-weight: 700; font-size: 1.2rem; color: #f0ede8; margin-bottom: 0.5rem; }
         .btn-detail {
             background: transparent;
             border: 1px solid #d4af37;
@@ -355,10 +259,7 @@
             cursor: pointer;
             color: #d4af37;
         }
-        .btn-detail:hover {
-            background: #d4af37;
-            color: #1e1e1c;
-        }
+        .btn-detail:hover { background: #d4af37; color: #1e1e1c; }
         .delete-watch {
             background: #7f2a2a;
             border: none;
@@ -369,15 +270,7 @@
             margin-top: 0.5rem;
             cursor: pointer;
         }
-        .empty-category {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(0,0,0,0.3);
-            border-radius: 28px;
-            color: #b9b5a8;
-            width: 100%;
-        }
-        /* servicios */
+        .empty-category { text-align: center; padding: 2rem; background: rgba(0,0,0,0.3); border-radius: 28px; color: #b9b5a8; width: 100%; }
         .services-section {
             max-width: 1400px;
             margin: 2rem auto;
@@ -398,30 +291,11 @@
             text-align: center;
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .service-item {
-            flex: 1;
-            min-width: 200px;
-        }
-        .service-item i {
-            font-size: 2.2rem;
-            color: #d4af37;
-            margin-bottom: 0.5rem;
-        }
-        .service-item h4 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-        .service-item p {
-            font-size: 0.9rem;
-            color: #e0d6c0;
-            line-height: 1.4;
-        }
-        .service-item .price {
-            font-weight: bold;
-            color: #ffd966;
-            font-size: 1rem;
-        }
+        .service-item { flex: 1; min-width: 200px; }
+        .service-item i { font-size: 2.2rem; color: #d4af37; margin-bottom: 0.5rem; }
+        .service-item h4 { font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 600; }
+        .service-item p { font-size: 0.9rem; color: #e0d6c0; line-height: 1.4; }
+        .service-item .price { font-weight: bold; color: #ffd966; font-size: 1rem; }
         .care-note {
             background: rgba(0,0,0,0.4);
             border-radius: 24px;
@@ -432,7 +306,6 @@
             text-align: center;
             border-left: 3px solid #d4af37;
         }
-        /* modales */
         .modal {
             display: none;
             position: fixed;
@@ -446,9 +319,7 @@
             justify-content: center;
             align-items: center;
         }
-        .modal.active {
-            display: flex;
-        }
+        .modal.active { display: flex; }
         .modal-content {
             background: #262624;
             max-width: 500px;
@@ -460,45 +331,13 @@
             padding: 2rem;
             text-align: center;
         }
-        .modal-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #d4af37;
-        }
-        .modal-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        .modal-btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 40px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .modal-btn.upload {
-            background: #d4af37;
-            color: #1e1e1c;
-        }
-        .modal-btn.delete {
-            background: #7f2a2a;
-            color: white;
-        }
-        .modal-btn.cancel {
-            background: #4a4a46;
-            color: white;
-        }
-        .close-modal {
-            position: absolute;
-            top: 12px;
-            right: 20px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: #d4af37;
-        }
+        .modal-content h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #d4af37; }
+        .modal-buttons { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
+        .modal-btn { padding: 0.6rem 1.2rem; border-radius: 40px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .modal-btn.upload { background: #d4af37; color: #1e1e1c; }
+        .modal-btn.delete { background: #7f2a2a; color: white; }
+        .modal-btn.cancel { background: #4a4a46; color: white; }
+        .close-modal { position: absolute; top: 12px; right: 20px; font-size: 1.8rem; cursor: pointer; color: #d4af37; }
         .modal-detail {
             background: #262624;
             max-width: 800px;
@@ -510,28 +349,10 @@
             position: relative;
             border: 1px solid #d4af37;
         }
-        .modal-img {
-            flex: 1;
-            background: #1a1a18;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        .modal-img img {
-            max-width: 100%;
-            max-height: 300px;
-            object-fit: contain;
-        }
-        .modal-info {
-            flex: 1;
-            padding: 2rem;
-            color: #f0ede8;
-        }
-        .modal-info h3 {
-            font-size: 1.8rem;
-            font-family: 'Playfair Display', serif;
-        }
+        .modal-img { flex: 1; background: #1a1a18; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .modal-img img { max-width: 100%; max-height: 300px; object-fit: contain; }
+        .modal-info { flex: 1; padding: 2rem; color: #f0ede8; }
+        .modal-info h3 { font-size: 1.8rem; font-family: 'Playfair Display', serif; }
         footer {
             text-align: center;
             padding: 2rem;
@@ -541,24 +362,8 @@
             margin-top: 3rem;
             background: rgba(0,0,0,0.3);
         }
-        .creator {
-            font-family: 'Playfair Display', serif;
-            font-size: 0.85rem;
-            color: #d4af37;
-            margin-top: 0.5rem;
-        }
-        @media (max-width: 700px) {
-            .modal-detail {
-                flex-direction: column;
-            }
-            .watch-card {
-                width: 260px;
-            }
-            .services-card {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
+        .creator { font-family: 'Playfair Display', serif; font-size: 0.85rem; color: #d4af37; margin-top: 0.5rem; }
+        @media (max-width: 700px) { .modal-detail { flex-direction: column; } .watch-card { width: 260px; } .services-card { flex-direction: column; gap: 1rem; } }
         .password-input {
             width: 100%;
             padding: 0.7rem;
@@ -570,11 +375,7 @@
             text-align: center;
             font-size: 1.2rem;
         }
-        .password-error {
-            color: #ff8888;
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-        }
+        .password-error { color: #ff8888; margin-top: 0.5rem; font-size: 0.8rem; }
     </style>
 </head>
 <body>
@@ -593,10 +394,9 @@
     </div>
 </header>
 
-<!-- Panel de administración -->
 <div class="admin-panel" id="adminPanel">
     <div class="admin-card">
-        <h3><i class="fas fa-images"></i> Subir múltiples imágenes</h3>
+        <h3><i class="fas fa-images"></i> Subir múltiples imágenes (solo visibles en este dispositivo)</h3>
         <form id="batchForm">
             <div class="form-group">
                 <label>Categoría *</label>
@@ -606,17 +406,17 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Seleccionar imágenes (puedes eliminar antes de subir)</label>
+                <label>Seleccionar imágenes</label>
                 <input type="file" id="batchImages" accept="image/jpeg,image/png,image/webp" multiple>
                 <div id="batchPreview" class="image-preview-area"></div>
             </div>
             <button type="submit" class="btn-submit"><i class="fas fa-upload"></i> Subir todas</button>
         </form>
         <div class="info-note">
-            <i class="fas fa-info-circle"></i> Las imágenes subidas aquí se guardan solo en este dispositivo. Para que todos los visitantes vean las fotos, súbelas directamente a la carpeta <strong>images</strong> de tu repositorio en GitHub.
+            <i class="fas fa-info-circle"></i> Estas imágenes solo se guardan en tu navegador. Para que todos los visitantes las vean, súbelas a la carpeta <strong>images/</strong> y la página las mostrará automáticamente.
         </div>
         <hr style="margin: 1.5rem 0; border-color: #4a4a46;">
-        <h3><i class="fas fa-plus-circle"></i> Subir un reloj con datos personalizados</h3>
+        <h3><i class="fas fa-plus-circle"></i> Subir un reloj con datos personalizados (solo local)</h3>
         <form id="singleForm">
             <div class="form-group">
                 <label>Nombre del reloj *</label>
@@ -647,7 +447,6 @@
     </div>
 </div>
 
-<!-- Catálogo -->
 <section class="catalog">
     <div class="catalog-header" style="text-align: center; margin-bottom: 2rem;">
         <h2 style="font-size: 2.5rem; background: linear-gradient(135deg, #f5e7c8, #d4af37); background-clip: text; -webkit-background-clip: text; color: transparent;">Nuestra Colección</h2>
@@ -664,7 +463,6 @@
     </div>
 </section>
 
-<!-- Servicios y garantía -->
 <div class="services-section">
     <div class="services-card">
         <div class="service-item">
@@ -694,7 +492,6 @@
     <div class="creator">✧ Creador: Rafael Santo Escoria ✧</div>
 </footer>
 
-<!-- Modales -->
 <div id="detailModal" class="modal">
     <div class="modal-detail">
         <span class="close-modal" id="closeDetailModal">&times;</span>
@@ -788,10 +585,12 @@
     setInterval(drawAnalogClock, 1000);
     drawAnalogClock();
 
-    // ================== GESTIÓN DE RELOJES ==================
+    // ================== GESTIÓN DE RELOJES CON JSON Y LOCALSTORAGE ==================
     const ADMIN_PASSWORD = "2024";
     let isAuthenticated = false;
-    let watches = [];
+    let staticWatches = [];      // del JSON
+    let userWatches = [];        // de localStorage
+    let combinedWatches = [];    // static + user
 
     const menGrid = document.getElementById('menGrid');
     const womenGrid = document.getElementById('womenGrid');
@@ -847,36 +646,68 @@
     authCancelBtn.addEventListener('click', closeAuthModal);
     authPasswordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
 
-    function loadWatchesFromStorage() {
-        const stored = localStorage.getItem('tiempo_y_elegancia_watches_v3');
-        if(stored) {
-            try { watches = JSON.parse(stored); } catch(e) { watches = []; }
-        }
-        if(!watches.length) {
-            // Ejemplos usando imágenes reales de la carpeta images (subidas por el usuario)
-            // Puedes cambiar los nombres de archivo según los que tengas en tu carpeta images
-            watches = [
-                { id: Date.now()+1, name: "Clásico Oro", gender: "hombre", imageDataURL: "images/IMG-20260317-WA0655.jpg", description: "Elegante diseño en oro rosa", price: null },
-                { id: Date.now()+2, name: "Perla Blanca", gender: "mujer", imageDataURL: "images/IMG-20260317-WA0667.jpg", description: "Esfera perlada con diamantes", price: null },
-                { id: Date.now()+3, name: "Deportivo Acero", gender: "hombre", imageDataURL: "images/IMG-20260317-WA0658.jpg", description: "Resistente y moderno", price: null }
+    // Cargar archivo JSON con los relojes de la carpeta images
+    async function loadStaticWatches() {
+        try {
+            const response = await fetch('images.json');
+            if (!response.ok) throw new Error('No se encontró images.json');
+            const data = await response.json();
+            staticWatches = data.map((item, idx) => ({
+                id: `static_${idx}`,
+                name: item.name,
+                gender: item.gender,
+                imageDataURL: item.imageDataURL,
+                description: item.description || '',
+                price: item.price || null,
+                static: true
+            }));
+        } catch (error) {
+            console.warn('No se pudo cargar images.json, usando ejemplos.');
+            // Datos de ejemplo si no hay JSON
+            staticWatches = [
+                { id: 'static_ex1', name: "Cronógrafo Imperial", gender: "hombre", imageDataURL: "https://placehold.co/400x400/2a2a28/d4af37?text=Ejemplo", description: "Agrega un archivo images.json a tu repositorio.", price: null, static: true },
+                { id: 'static_ex2', name: "Elegance Moonphase", gender: "mujer", imageDataURL: "https://placehold.co/400x400/2a2a28/d4af37?text=Ejemplo", description: "Crea el JSON con tus imágenes.", price: null, static: true }
             ];
-            saveWatchesToStorage();
         }
+        combineAndRender();
+    }
+
+    // Cargar relojes del usuario desde localStorage
+    function loadUserWatches() {
+        const stored = localStorage.getItem('tiempo_y_elegancia_user_watches');
+        if (stored) {
+            try {
+                userWatches = JSON.parse(stored);
+                userWatches = userWatches.map(w => ({ ...w, static: false }));
+            } catch(e) { userWatches = []; }
+        } else {
+            userWatches = [];
+        }
+    }
+
+    function saveUserWatches() {
+        localStorage.setItem('tiempo_y_elegancia_user_watches', JSON.stringify(userWatches));
+    }
+
+    function combineAndRender() {
+        combinedWatches = [...staticWatches, ...userWatches];
         renderCatalog();
     }
-    function saveWatchesToStorage() { localStorage.setItem('tiempo_y_elegancia_watches_v3', JSON.stringify(watches)); }
+
     function renderCatalog() {
-        const menFiltered = watches.filter(w => w.gender === "hombre");
-        const womenFiltered = watches.filter(w => w.gender === "mujer");
+        const menFiltered = combinedWatches.filter(w => w.gender === "hombre");
+        const womenFiltered = combinedWatches.filter(w => w.gender === "mujer");
         menCountSpan.innerText = menFiltered.length;
         womenCountSpan.innerText = womenFiltered.length;
         renderCategory(menFiltered, menGrid);
         renderCategory(womenFiltered, womenGrid);
     }
+
     function renderCategory(filtered, container) {
         if(filtered.length === 0) { container.innerHTML = `<div class="empty-category">✨ No hay relojes en esta categoría.</div>`; return; }
         let html = '';
         filtered.forEach(watch => {
+            const isStatic = watch.static === true;
             html += `
                 <div class="watch-card" data-id="${watch.id}">
                     <div class="watch-img" data-id="${watch.id}">
@@ -885,24 +716,25 @@
                     <div class="watch-info">
                         <div class="watch-name">${escapeHtml(watch.name)}</div>
                         <button class="btn-detail" data-id="${watch.id}">Ver detalles</button>
-                        ${adminPanelDiv.classList.contains('active') ? `<button class="delete-watch" data-id="${watch.id}">🗑️ Eliminar</button>` : ''}
+                        ${adminPanelDiv.classList.contains('active') && !isStatic ? `<button class="delete-watch" data-id="${watch.id}">🗑️ Eliminar</button>` : ''}
                     </div>
                 </div>
             `;
         });
         container.innerHTML = html;
         container.querySelectorAll('.btn-detail').forEach(btn => {
-            btn.addEventListener('click', (e) => { e.stopPropagation(); const id = parseInt(btn.dataset.id); const watch = watches.find(w => w.id === id); if(watch) openDetailModal(watch); });
+            btn.addEventListener('click', (e) => { e.stopPropagation(); const id = btn.dataset.id; const watch = combinedWatches.find(w => w.id == id); if(watch) openDetailModal(watch); });
         });
         if(adminPanelDiv.classList.contains('active')) {
             container.querySelectorAll('.delete-watch').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    const id = parseInt(btn.dataset.id);
-                    if(confirm('¿Eliminar este reloj del catálogo?')) {
-                        watches = watches.filter(w => w.id !== id);
-                        saveWatchesToStorage();
-                        renderCatalog();
+                    const id = btn.dataset.id;
+                    const watch = userWatches.find(w => w.id == id);
+                    if(watch && confirm('¿Eliminar este reloj agregado por ti?')) {
+                        userWatches = userWatches.filter(w => w.id != id);
+                        saveUserWatches();
+                        combineAndRender();
                     }
                 });
             });
@@ -910,14 +742,15 @@
         container.querySelectorAll('.watch-card').forEach(card => {
             card.addEventListener('click', (e) => {
                 if(e.target.classList.contains('btn-detail') || e.target.classList.contains('delete-watch')) return;
-                const id = parseInt(card.dataset.id);
-                const watch = watches.find(w => w.id === id);
+                const id = card.dataset.id;
+                const watch = combinedWatches.find(w => w.id == id);
                 if(watch) openDetailModal(watch);
             });
         });
     }
+
     window.handleImageError = function(imgElement, watchId) {
-        const watch = watches.find(w => w.id == watchId);
+        const watch = combinedWatches.find(w => w.id == watchId);
         if(!watch) return;
         const parent = imgElement.parentNode;
         const placeholder = document.createElement('div');
@@ -926,6 +759,10 @@
         placeholder.style.cursor = 'pointer';
         placeholder.onclick = (e) => {
             e.stopPropagation();
+            if(watch.static) {
+                alert('Las imágenes del catálogo principal no se pueden reparar desde aquí. Edita el archivo images.json y sube la imagen correcta a la carpeta images/');
+                return;
+            }
             requestAuth('repair', () => {
                 currentBrokenWatch = watch;
                 brokenWatchNameSpan.innerText = watch.name;
@@ -935,6 +772,7 @@
         };
         parent.replaceChild(placeholder, imgElement);
     };
+
     function openDetailModal(watch) {
         document.getElementById('modalImg').src = watch.imageDataURL;
         document.getElementById('modalName').innerText = watch.name;
@@ -956,8 +794,10 @@
         const reader = new FileReader();
         reader.onload = (ev) => {
             currentBrokenWatch.imageDataURL = ev.target.result;
-            saveWatchesToStorage();
-            renderCatalog();
+            const idx = userWatches.findIndex(w => w.id === currentBrokenWatch.id);
+            if(idx !== -1) userWatches[idx] = currentBrokenWatch;
+            saveUserWatches();
+            combineAndRender();
             closeBrokenModalFunc();
             alert('Imagen actualizada correctamente');
         };
@@ -965,42 +805,35 @@
         brokenImageFile.value = '';
     });
     brokenDeleteBtn.addEventListener('click', () => {
-        if(currentBrokenWatch && confirm('¿Eliminar este reloj permanentemente?')) {
-            watches = watches.filter(w => w.id !== currentBrokenWatch.id);
-            saveWatchesToStorage();
-            renderCatalog();
+        if(currentBrokenWatch && !currentBrokenWatch.static && confirm('¿Eliminar este reloj permanentemente?')) {
+            userWatches = userWatches.filter(w => w.id !== currentBrokenWatch.id);
+            saveUserWatches();
+            combineAndRender();
             closeBrokenModalFunc();
+        } else if(currentBrokenWatch.static) {
+            alert('No puedes eliminar relojes del catálogo principal desde aquí. Edita el archivo images.json.');
         }
     });
 
-    // ================== SUBIDA MÚLTIPLE CON PREVISUALIZACIÓN Y ELIMINACIÓN ==================
-    let currentFiles = []; // array de objetos { file, previewUrl }
-
+    // Subida múltiple (solo usuario)
+    let currentFiles = [];
     function updateBatchPreview() {
         batchPreview.innerHTML = '';
         currentFiles.forEach((item, idx) => {
             const div = document.createElement('div');
             div.className = 'preview-item';
-            div.innerHTML = `
-                <img src="${item.previewUrl}" alt="preview">
-                <div class="preview-delete" data-index="${idx}">✖</div>
-            `;
+            div.innerHTML = `<img src="${item.previewUrl}" alt="preview"><div class="preview-delete" data-index="${idx}">✖</div>`;
             batchPreview.appendChild(div);
         });
-        // añadir eventos de eliminar
         document.querySelectorAll('.preview-delete').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const idx = parseInt(btn.dataset.index);
-                // liberar URL
                 URL.revokeObjectURL(currentFiles[idx].previewUrl);
                 currentFiles.splice(idx, 1);
                 updateBatchPreview();
-                // actualizar input file (no se puede modificar directamente, pero se puede resetear)
-                // Para simplificar, no se sincroniza el input file, solo se usa currentFiles al subir.
             });
         });
     }
-
     batchImagesInput.addEventListener('change', (e) => {
         const newFiles = Array.from(e.target.files);
         newFiles.forEach(file => {
@@ -1008,11 +841,8 @@
             currentFiles.push({ file, previewUrl });
         });
         updateBatchPreview();
-        // Limpiar input para que se pueda volver a seleccionar el mismo archivo si se elimina
         batchImagesInput.value = '';
     });
-
-    // Subida múltiple
     batchForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if(!isAuthenticated) {
@@ -1034,22 +864,22 @@
                 name: name,
                 gender: gender,
                 imageDataURL: dataURL,
-                description: "Reloj de colección",
-                price: null
+                description: "Reloj agregado manualmente",
+                price: null,
+                static: false
             };
-            watches.push(newWatch);
+            userWatches.push(newWatch);
             added++;
-            // liberar URL
             URL.revokeObjectURL(item.previewUrl);
         }
-        saveWatchesToStorage();
-        renderCatalog();
+        saveUserWatches();
         currentFiles = [];
         updateBatchPreview();
+        combineAndRender();
         alert(`Se agregaron ${added} relojes correctamente`);
     });
 
-    // Subida individual con previsualización
+    // Subida individual
     singleImageInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         singlePreview.innerHTML = '';
@@ -1084,11 +914,12 @@
                 gender: gender,
                 imageDataURL: ev.target.result,
                 description: description || "Sin descripción",
-                price: price ? parseFloat(price) : null
+                price: price ? parseFloat(price) : null,
+                static: false
             };
-            watches.push(newWatch);
-            saveWatchesToStorage();
-            renderCatalog();
+            userWatches.push(newWatch);
+            saveUserWatches();
+            combineAndRender();
             singleForm.reset();
             singlePreview.innerHTML = '';
             alert('Reloj agregado');
@@ -1096,7 +927,6 @@
         reader.readAsDataURL(imageFile);
     });
 
-    // Admin toggle
     adminToggleBtn.addEventListener('click', () => {
         if(!isAuthenticated) {
             requestAuth('toggleAdmin', () => { toggleAdminPanel(); });
@@ -1106,13 +936,15 @@
     });
     function toggleAdminPanel() {
         adminPanelDiv.classList.toggle('active');
-        renderCatalog();
+        renderCatalog(); // refresca botones eliminar
         adminToggleBtn.innerHTML = adminPanelDiv.classList.contains('active') ? '<i class="fas fa-eye"></i> Ocultar administración' : '<i class="fas fa-crown"></i> Administrar relojes';
     }
 
     function escapeHtml(str) { return str.replace(/[&<>]/g, function(m) { if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m; }); }
 
-    loadWatchesFromStorage();
+    // Inicialización
+    loadUserWatches();
+    loadStaticWatches().then(() => combineAndRender());
 </script>
 </body>
 </html>
