@@ -1,0 +1,116 @@
+[
+  {
+    "name": "Cronógrafo Clásico",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0655.jpg",
+    "description": "Diseño elegante con esfera negra y detalles dorados. Movimiento automático."
+  },
+  {
+    "name": "Deportivo Acero",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0656.jpg",
+    "description": "Caja de acero inoxidable, esfera azul, resistencia al agua 10 ATM."
+  },
+  {
+    "name": "Imperator Dual Time",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0657.jpg",
+    "description": "Doble huso horario, perfecto para viajeros. Bisel cerámico."
+  },
+  {
+    "name": "Oceanmaster GMT",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0658.jpg",
+    "description": "Edición sumergible 200m, indicador de fecha, luminiscencia BGW9."
+  },
+  {
+    "name": "Cronógrafo Imperial",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0659.jpg",
+    "description": "Movimiento automático suizo, esfera negra con índices dorados."
+  },
+  {
+    "name": "Petite Seconde",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0660.jpg",
+    "description": "Esfera guilloché, segundero independiente, movimiento manual de cuerda."
+  },
+  {
+    "name": "Dark Knight Skeleton",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0661.jpg",
+    "description": "Movimiento esqueletizado, caja de titanio, correa de caucho vulcanizado."
+  },
+  {
+    "name": "Regent Moonphase",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0662.jpg",
+    "description": "Fase lunar, calendario completo, esfera esmaltada azul noche."
+  },
+  {
+    "name": "Clásico Vintage",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0663.jpg",
+    "description": "Estilo retro, cuerda manual, esfera crema con números romanos."
+  },
+  {
+    "name": "Safari Aventura",
+    "gender": "hombre",
+    "imageDataURL": "images/IMG-20260317-WA0664.jpg",
+    "description": "Resistente al agua 200m, bisel giratorio, ideal para exploradores."
+  },
+  {
+    "name": "Elegance Moonphase",
+    "gender": "mujer",
+    "imageDataURL": "images/IMG-20260317-WA0667.jpg",
+    "description": "Fase lunar, correa de piel de cocodrilo, diseño refinado para dama."
+  },
+  {
+    "name": "Dama Esmeralda",
+    "gender": "mujer",
+    "imageDataURL": "images/IMG-20260317-WA0668.jpg",
+    "description": "Esfera en tonos esmeralda, cristales brillantes, correa de satén."
+  },
+  {
+    "name": "Perla Blanca",
+    "gender": "mujer",
+    "imageDataURL": "images/IMG-20260317-WA0669.jpg",
+    "description": "Madreperla, diamantes en índices, correa de acero chapado en oro."
+  },
+  {
+    "name": "Lady Rose",
+    "gender": "mujer",
+    "imageDataURL": "images/IMG-20260317-WA0670.jpg",
+    "description": "Esfera rosada, cristal zafiro, movimiento de cuarzo de precisión."
+  },
+  {
+    "name": "Clásica Elegante",
+    "gender": "mujer",
+    "imageDataURL": "images/IMG-20260317-WA0671.jpg",
+    "description": "Caja ovalada, correa de piel, números romanos en relieve."
+  },
+  {
+    "name": "Sapphire Dream",
+    "gender": "mujer",
+    "imageDataURL": "images/IMG-20260317-WA0672.jpg",
+    "description": "Acero pulido con incrustaciones de zafiro, esfera blanca perlada."
+  },
+  {
+    "name": "Minimalista",
+    "gender": "mujer",
+    "imageDataURL": "images/IMG-20260317-WA0673.jpg",
+    "description": "Diseño limpio, correa intercambiable, caja ultradelgada."
+  },
+  {
+    "name": "Brillante",
+    "gender": "mujer",
+    "imageDataURL": "images/IMG-20260317-WA0674.jpg",
+    "description": "Esfera con diamantes auténticos, acero inoxidable, estilo sofisticado."
+  },
+  {
+    "name": "Eterna",
+    "gender": "mujer",
+    "imageDataURL": "images/IMG-20260317-WA0675.jpg",
+    "description": "Movimiento automático, cristal de zafiro, correa de acero."
+  }
+]
