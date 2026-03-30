@@ -2,8 +2,8 @@
 <?php
 $host = 'localhost';
 $dbname = 'tiempo_elegancia';   // Cambia por el nombre de tu BD
-$username = 'Rafael02';             // Tu usuario de MySQL
-$password = '2024';                 // Tu contraseña
+$username = 'root';             // Tu usuario de MySQL
+$password = '';                 // Tu contraseña
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
