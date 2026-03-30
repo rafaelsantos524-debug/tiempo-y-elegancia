@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ===== ESTILOS COMPLETOS (mismos que antes, por brevedad se omiten aquí, pero deben estar) ===== */
+        /* ===== ESTILOS COMPLETOS (mismos que los originales) ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
@@ -396,7 +396,7 @@
 
 <div class="admin-panel" id="adminPanel">
     <div class="admin-card">
-        <h3><i class="fas fa-images"></i> Subir múltiples imágenes (solo visibles en este dispositivo)</h3>
+        <h3><i class="fas fa-images"></i> Subir múltiples imágenes</h3>
         <form id="batchForm">
             <div class="form-group">
                 <label>Categoría *</label>
@@ -413,10 +413,10 @@
             <button type="submit" class="btn-submit"><i class="fas fa-upload"></i> Subir todas</button>
         </form>
         <div class="info-note">
-            <i class="fas fa-info-circle"></i> Estas imágenes solo se guardan en tu navegador. Para que todos los visitantes las vean, súbelas a la carpeta <strong>images/</strong> y la página las mostrará automáticamente.
+            <i class="fas fa-info-circle"></i> Las imágenes se guardan en el servidor y son visibles para todos.
         </div>
         <hr style="margin: 1.5rem 0; border-color: #4a4a46;">
-        <h3><i class="fas fa-plus-circle"></i> Subir un reloj con datos personalizados (solo local)</h3>
+        <h3><i class="fas fa-plus-circle"></i> Subir un reloj con datos personalizados</h3>
         <form id="singleForm">
             <div class="form-group">
                 <label>Nombre del reloj *</label>
@@ -526,7 +526,7 @@
 </div>
 
 <script>
-    // ================== RELOJ ANÁLOGO ==================
+    // ================== RELOJ ANÁLOGO (sin cambios) ==================
     const clockCanvas = document.getElementById('analogClockCanvas');
     const clockCtx = clockCanvas.getContext('2d');
     const digitalSpan = document.getElementById('digitalClock');
@@ -585,12 +585,11 @@
     setInterval(drawAnalogClock, 1000);
     drawAnalogClock();
 
-    // ================== GESTIÓN DE RELOJES CON JSON Y LOCALSTORAGE ==================
+    // ================== API Y GESTIÓN CON MYSQL ==================
+    const API_BASE = 'api/watches.php';
     const ADMIN_PASSWORD = "2024";
     let isAuthenticated = false;
-    let staticWatches = [];      // del JSON
-    let userWatches = [];        // de localStorage
-    let combinedWatches = [];    // static + user
+    let watches = []; // se llena desde la API
 
     const menGrid = document.getElementById('menGrid');
     const womenGrid = document.getElementById('womenGrid');
@@ -621,7 +620,8 @@
     const authCancelBtn = document.getElementById('authCancelBtn');
     let authCallback = null;
 
-    function requestAuth(action, callback) {
+    // Autenticación
+    function requestAuth(callback) {
         authPasswordInput.value = '';
         authErrorSpan.innerText = '';
         authModal.classList.add('active');
@@ -646,57 +646,97 @@
     authCancelBtn.addEventListener('click', closeAuthModal);
     authPasswordInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkPassword(); });
 
-    // Cargar archivo JSON con los relojes de la carpeta images
-    async function loadStaticWatches() {
+    // Función para hacer fetch con autenticación opcional (para escritura)
+    async function apiFetch(url, options = {}) {
+        // Si es una petición que modifica datos (POST, DELETE) y no estamos autenticados, pedir contraseña
+        if ((options.method === 'POST' || options.method === 'DELETE') && !isAuthenticated) {
+            return new Promise((resolve, reject) => {
+                requestAuth(async () => {
+                    try {
+                        const res = await fetch(url, {
+                            ...options,
+                            headers: {
+                                ...options.headers,
+                                'X-Password': ADMIN_PASSWORD
+                            }
+                        });
+                        resolve(res);
+                    } catch (err) {
+                        reject(err);
+                    }
+                });
+            });
+        }
+        // Si ya estamos autenticados, añadimos el header
+        if (isAuthenticated && (options.method === 'POST' || options.method === 'DELETE')) {
+            options.headers = { ...options.headers, 'X-Password': ADMIN_PASSWORD };
+        }
+        return fetch(url, options);
+    }
+
+    // Cargar todos los relojes desde el servidor
+    async function loadWatches() {
         try {
-            const response = await fetch('images.json');
-            if (!response.ok) throw new Error('No se encontró images.json');
-            const data = await response.json();
-            staticWatches = data.map((item, idx) => ({
-                id: `static_${idx}`,
-                name: item.name,
-                gender: item.gender,
-                imageDataURL: item.imageDataURL,
-                description: item.description || '',
-                price: item.price || null,
-                static: true
-            }));
+            const response = await fetch(API_BASE);
+            if (!response.ok) throw new Error('Error al cargar datos');
+            watches = await response.json();
+            renderCatalog();
         } catch (error) {
-            console.warn('No se pudo cargar images.json, usando ejemplos.');
-            // Datos de ejemplo si no hay JSON
-            staticWatches = [
-                { id: 'static_ex1', name: "Cronógrafo Imperial", gender: "hombre", imageDataURL: "https://placehold.co/400x400/2a2a28/d4af37?text=Ejemplo", description: "Agrega un archivo images.json a tu repositorio.", price: null, static: true },
-                { id: 'static_ex2', name: "Elegance Moonphase", gender: "mujer", imageDataURL: "https://placehold.co/400x400/2a2a28/d4af37?text=Ejemplo", description: "Crea el JSON con tus imágenes.", price: null, static: true }
-            ];
-        }
-        combineAndRender();
-    }
-
-    // Cargar relojes del usuario desde localStorage
-    function loadUserWatches() {
-        const stored = localStorage.getItem('tiempo_y_elegancia_user_watches');
-        if (stored) {
-            try {
-                userWatches = JSON.parse(stored);
-                userWatches = userWatches.map(w => ({ ...w, static: false }));
-            } catch(e) { userWatches = []; }
-        } else {
-            userWatches = [];
+            console.error(error);
+            alert('No se pudieron cargar los relojes. Verifica la conexión con el servidor.');
         }
     }
 
-    function saveUserWatches() {
-        localStorage.setItem('tiempo_y_elegancia_user_watches', JSON.stringify(userWatches));
+    // Eliminar un reloj
+    async function deleteWatch(id) {
+        try {
+            const response = await apiFetch(`${API_BASE}?id=${id}`, { method: 'DELETE' });
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error || 'Error al eliminar');
+            }
+            watches = watches.filter(w => w.id != id);
+            renderCatalog();
+            alert('Reloj eliminado correctamente');
+        } catch (error) {
+            console.error(error);
+            alert('No se pudo eliminar el reloj: ' + error.message);
+        }
     }
 
-    function combineAndRender() {
-        combinedWatches = [...staticWatches, ...userWatches];
-        renderCatalog();
+    // Subir una imagen para un reloj existente
+    async function updateWatchImage(watchId, file) {
+        const formData = new FormData();
+        formData.append('image', file);
+        try {
+            const response = await apiFetch(`${API_BASE}?action=update_image&id=${watchId}`, {
+                method: 'POST',
+                body: formData
+            });
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error || 'Error al actualizar');
+            }
+            const result = await response.json();
+            if (result.success) {
+                const watch = watches.find(w => w.id == watchId);
+                if (watch) watch.image_path = result.image_path;
+                renderCatalog();
+                return true;
+            } else {
+                throw new Error(result.error || 'Error desconocido');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('No se pudo actualizar la imagen: ' + error.message);
+            return false;
+        }
     }
 
+    // Renderizar catálogo
     function renderCatalog() {
-        const menFiltered = combinedWatches.filter(w => w.gender === "hombre");
-        const womenFiltered = combinedWatches.filter(w => w.gender === "mujer");
+        const menFiltered = watches.filter(w => w.gender === 'hombre');
+        const womenFiltered = watches.filter(w => w.gender === 'mujer');
         menCountSpan.innerText = menFiltered.length;
         womenCountSpan.innerText = womenFiltered.length;
         renderCategory(menFiltered, menGrid);
@@ -704,54 +744,64 @@
     }
 
     function renderCategory(filtered, container) {
-        if(filtered.length === 0) { container.innerHTML = `<div class="empty-category">✨ No hay relojes en esta categoría.</div>`; return; }
+        if (filtered.length === 0) {
+            container.innerHTML = `<div class="empty-category">✨ No hay relojes en esta categoría.</div>`;
+            return;
+        }
         let html = '';
         filtered.forEach(watch => {
-            const isStatic = watch.static === true;
             html += `
                 <div class="watch-card" data-id="${watch.id}">
-                    <div class="watch-img" data-id="${watch.id}">
-                        <img src="${watch.imageDataURL}" alt="${watch.name}" loading="lazy" onerror="handleImageError(this, '${watch.id}')">
+                    <div class="watch-img">
+                        <img src="${watch.image_path}" alt="${escapeHtml(watch.name)}" loading="lazy" 
+                             onerror="handleImageError(this, '${watch.id}')">
                     </div>
                     <div class="watch-info">
                         <div class="watch-name">${escapeHtml(watch.name)}</div>
                         <button class="btn-detail" data-id="${watch.id}">Ver detalles</button>
-                        ${adminPanelDiv.classList.contains('active') && !isStatic ? `<button class="delete-watch" data-id="${watch.id}">🗑️ Eliminar</button>` : ''}
+                        ${adminPanelDiv.classList.contains('active') ? `<button class="delete-watch" data-id="${watch.id}">🗑️ Eliminar</button>` : ''}
                     </div>
                 </div>
             `;
         });
         container.innerHTML = html;
+
+        // Eventos de detalles
         container.querySelectorAll('.btn-detail').forEach(btn => {
-            btn.addEventListener('click', (e) => { e.stopPropagation(); const id = btn.dataset.id; const watch = combinedWatches.find(w => w.id == id); if(watch) openDetailModal(watch); });
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute('data-id');
+                const watch = watches.find(w => w.id == id);
+                if (watch) openDetailModal(watch);
+            });
         });
-        if(adminPanelDiv.classList.contains('active')) {
+        // Eventos de eliminar
+        if (adminPanelDiv.classList.contains('active')) {
             container.querySelectorAll('.delete-watch').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', async (e) => {
                     e.stopPropagation();
-                    const id = btn.dataset.id;
-                    const watch = userWatches.find(w => w.id == id);
-                    if(watch && confirm('¿Eliminar este reloj agregado por ti?')) {
-                        userWatches = userWatches.filter(w => w.id != id);
-                        saveUserWatches();
-                        combineAndRender();
+                    const id = btn.getAttribute('data-id');
+                    if (confirm('¿Eliminar este reloj del catálogo?')) {
+                        await deleteWatch(id);
                     }
                 });
             });
         }
+        // Click en toda la tarjeta
         container.querySelectorAll('.watch-card').forEach(card => {
             card.addEventListener('click', (e) => {
-                if(e.target.classList.contains('btn-detail') || e.target.classList.contains('delete-watch')) return;
-                const id = card.dataset.id;
-                const watch = combinedWatches.find(w => w.id == id);
-                if(watch) openDetailModal(watch);
+                if (e.target.classList.contains('btn-detail') || e.target.classList.contains('delete-watch')) return;
+                const id = card.getAttribute('data-id');
+                const watch = watches.find(w => w.id == id);
+                if (watch) openDetailModal(watch);
             });
         });
     }
 
+    // Manejo de imágenes rotas
     window.handleImageError = function(imgElement, watchId) {
-        const watch = combinedWatches.find(w => w.id == watchId);
-        if(!watch) return;
+        const watch = watches.find(w => w.id == watchId);
+        if (!watch) return;
         const parent = imgElement.parentNode;
         const placeholder = document.createElement('div');
         placeholder.className = 'error-img-placeholder';
@@ -759,63 +809,59 @@
         placeholder.style.cursor = 'pointer';
         placeholder.onclick = (e) => {
             e.stopPropagation();
-            if(watch.static) {
-                alert('Las imágenes del catálogo principal no se pueden reparar desde aquí. Edita el archivo images.json y sube la imagen correcta a la carpeta images/');
-                return;
-            }
-            requestAuth('repair', () => {
-                currentBrokenWatch = watch;
-                brokenWatchNameSpan.innerText = watch.name;
-                brokenModalDiv.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
+            currentBrokenWatch = watch;
+            brokenWatchNameSpan.innerText = watch.name;
+            brokenModalDiv.classList.add('active');
+            document.body.style.overflow = 'hidden';
         };
         parent.replaceChild(placeholder, imgElement);
     };
 
+    let currentBrokenWatch = null;
+
+    // Modal detalles
     function openDetailModal(watch) {
-        document.getElementById('modalImg').src = watch.imageDataURL;
+        document.getElementById('modalImg').src = watch.image_path;
         document.getElementById('modalName').innerText = watch.name;
         document.getElementById('modalDesc').innerText = watch.description || "Modelo exclusivo de nuestra colección.";
         detailModalDiv.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
-    function closeDetailModalFunc() { detailModalDiv.classList.remove('active'); document.body.style.overflow = ''; }
+    function closeDetailModalFunc() {
+        detailModalDiv.classList.remove('active');
+        document.body.style.overflow = '';
+    }
     closeDetailModalSpan.addEventListener('click', closeDetailModalFunc);
-    detailModalDiv.addEventListener('click', (e) => { if(e.target === detailModalDiv) closeDetailModalFunc(); });
-    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') { if(detailModalDiv.classList.contains('active')) closeDetailModalFunc(); if(brokenModalDiv.classList.contains('active')) closeBrokenModalFunc(); if(authModal.classList.contains('active')) closeAuthModal(); } });
-    function closeBrokenModalFunc() { brokenModalDiv.classList.remove('active'); document.body.style.overflow = ''; currentBrokenWatch = null; }
+    detailModalDiv.addEventListener('click', (e) => {
+        if (e.target === detailModalDiv) closeDetailModalFunc();
+    });
+
+    // Modal imagen rota
+    function closeBrokenModalFunc() {
+        brokenModalDiv.classList.remove('active');
+        document.body.style.overflow = '';
+        currentBrokenWatch = null;
+    }
     closeBrokenModalSpan.addEventListener('click', closeBrokenModalFunc);
     brokenCancelBtn.addEventListener('click', closeBrokenModalFunc);
-    brokenUploadBtn.addEventListener('click', () => { brokenImageFile.click(); });
-    brokenImageFile.addEventListener('change', (e) => {
+    brokenUploadBtn.addEventListener('click', () => {
+        brokenImageFile.click();
+    });
+    brokenImageFile.addEventListener('change', async (e) => {
         const file = e.target.files[0];
-        if(!file || !currentBrokenWatch) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-            currentBrokenWatch.imageDataURL = ev.target.result;
-            const idx = userWatches.findIndex(w => w.id === currentBrokenWatch.id);
-            if(idx !== -1) userWatches[idx] = currentBrokenWatch;
-            saveUserWatches();
-            combineAndRender();
-            closeBrokenModalFunc();
-            alert('Imagen actualizada correctamente');
-        };
-        reader.readAsDataURL(file);
+        if (!file || !currentBrokenWatch) return;
+        const success = await updateWatchImage(currentBrokenWatch.id, file);
+        if (success) closeBrokenModalFunc();
         brokenImageFile.value = '';
     });
-    brokenDeleteBtn.addEventListener('click', () => {
-        if(currentBrokenWatch && !currentBrokenWatch.static && confirm('¿Eliminar este reloj permanentemente?')) {
-            userWatches = userWatches.filter(w => w.id !== currentBrokenWatch.id);
-            saveUserWatches();
-            combineAndRender();
+    brokenDeleteBtn.addEventListener('click', async () => {
+        if (currentBrokenWatch && confirm('¿Eliminar este reloj permanentemente?')) {
+            await deleteWatch(currentBrokenWatch.id);
             closeBrokenModalFunc();
-        } else if(currentBrokenWatch.static) {
-            alert('No puedes eliminar relojes del catálogo principal desde aquí. Edita el archivo images.json.');
         }
     });
 
-    // Subida múltiple (solo usuario)
+    // Subida múltiple
     let currentFiles = [];
     function updateBatchPreview() {
         batchPreview.innerHTML = '';
@@ -845,37 +891,39 @@
     });
     batchForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if(!isAuthenticated) {
-            requestAuth('batch', () => { batchForm.dispatchEvent(new Event('submit')); });
-            return;
-        }
-        if(currentFiles.length === 0) { alert('Selecciona al menos una imagen'); return; }
+        if (currentFiles.length === 0) { alert('Selecciona al menos una imagen'); return; }
         const gender = batchGender.value;
         let added = 0;
-        for(let item of currentFiles) {
-            const dataURL = await new Promise(resolve => {
-                const reader = new FileReader();
-                reader.onload = ev => resolve(ev.target.result);
-                reader.readAsDataURL(item.file);
-            });
+        for (let item of currentFiles) {
+            const formData = new FormData();
             const name = item.file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ").substring(0, 30);
-            const newWatch = {
-                id: Date.now() + Math.random(),
-                name: name,
-                gender: gender,
-                imageDataURL: dataURL,
-                description: "Reloj agregado manualmente",
-                price: null,
-                static: false
-            };
-            userWatches.push(newWatch);
-            added++;
+            formData.append('name', name);
+            formData.append('gender', gender);
+            formData.append('description', 'Reloj agregado desde subida múltiple');
+            formData.append('image', item.file);
+            try {
+                const response = await apiFetch(API_BASE, { method: 'POST', body: formData });
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.error || 'Error al guardar');
+                }
+                const result = await response.json();
+                if (result.success) {
+                    added++;
+                } else {
+                    throw new Error(result.error || 'Error desconocido');
+                }
+            } catch (error) {
+                console.error(error);
+                alert(`Error al subir ${item.file.name}: ${error.message}`);
+            }
             URL.revokeObjectURL(item.previewUrl);
         }
-        saveUserWatches();
+        if (added > 0) {
+            await loadWatches(); // recargar toda la lista
+        }
         currentFiles = [];
         updateBatchPreview();
-        combineAndRender();
         alert(`Se agregaron ${added} relojes correctamente`);
     });
 
@@ -896,40 +944,42 @@
     });
     singleForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if(!isAuthenticated) {
-            requestAuth('single', () => { singleForm.dispatchEvent(new Event('submit')); });
-            return;
-        }
         const name = document.getElementById('watchName').value.trim();
         const gender = document.getElementById('watchGender').value;
         const price = document.getElementById('watchPrice').value;
         const description = document.getElementById('watchDesc').value.trim();
         const imageFile = singleImageInput.files[0];
-        if(!name || !imageFile) { alert('Nombre e imagen son obligatorios'); return; }
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-            const newWatch = {
-                id: Date.now(),
-                name: name,
-                gender: gender,
-                imageDataURL: ev.target.result,
-                description: description || "Sin descripción",
-                price: price ? parseFloat(price) : null,
-                static: false
-            };
-            userWatches.push(newWatch);
-            saveUserWatches();
-            combineAndRender();
-            singleForm.reset();
-            singlePreview.innerHTML = '';
-            alert('Reloj agregado');
-        };
-        reader.readAsDataURL(imageFile);
+        if (!name || !imageFile) { alert('Nombre e imagen son obligatorios'); return; }
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('gender', gender);
+        if (price) formData.append('price', price);
+        if (description) formData.append('description', description);
+        formData.append('image', imageFile);
+        try {
+            const response = await apiFetch(API_BASE, { method: 'POST', body: formData });
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.error || 'Error al guardar');
+            }
+            const result = await response.json();
+            if (result.success) {
+                await loadWatches(); // recargar lista
+                singleForm.reset();
+                singlePreview.innerHTML = '';
+                alert('Reloj agregado correctamente');
+            } else {
+                throw new Error(result.error || 'Error desconocido');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('No se pudo agregar el reloj: ' + error.message);
+        }
     });
 
     adminToggleBtn.addEventListener('click', () => {
-        if(!isAuthenticated) {
-            requestAuth('toggleAdmin', () => { toggleAdminPanel(); });
+        if (!isAuthenticated) {
+            requestAuth(() => { toggleAdminPanel(); });
         } else {
             toggleAdminPanel();
         }
@@ -940,11 +990,18 @@
         adminToggleBtn.innerHTML = adminPanelDiv.classList.contains('active') ? '<i class="fas fa-eye"></i> Ocultar administración' : '<i class="fas fa-crown"></i> Administrar relojes';
     }
 
-    function escapeHtml(str) { return str.replace(/[&<>]/g, function(m) { if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; return m; }); }
+    function escapeHtml(str) { 
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) { 
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
 
-    // Inicialización
-    loadUserWatches();
-    loadStaticWatches().then(() => combineAndRender());
+    // Inicialización: cargar los relojes desde la API
+    loadWatches();
 </script>
 </body>
 </html>
